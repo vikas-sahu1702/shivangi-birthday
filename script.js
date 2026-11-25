@@ -92,8 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
       musicToggleBtn?.classList.add('playing');
       if (musicTitleText) musicTitleText.textContent = 'Tum Se Hi';
       if (slideAudioName) slideAudioName.textContent = 'Tum Se Hi';
-    }).catch(() => {
-      // If tum-se-hi.mp3 is missing or blocked, use built-in melody on user interaction
+    }).catch((err) => {
+      // Browser blocked autoplay before user interaction; keep tum-se-hi.mp3 ready for first touch/click
+      if (err && err.name === 'NotAllowedError') {
+        console.log('Autoplay blocked by browser policy, waiting for first interaction.');
+        return;
+      }
+      // Only fall back to synth melody if the audio file itself failed to load
       useSynthFallback = true;
       isMusicPlaying = true;
       musicToggleBtn?.classList.add('playing');
@@ -102,6 +107,24 @@ document.addEventListener('DOMContentLoaded', () => {
       scheduleNextMelodyNote();
     });
   }
+
+  // Try autoplay immediately on page visit
+  playSong();
+
+  // Guarantee song starts on the very first tap/click/key anywhere if browser blocked initial autoplay
+  const autoPlayOnFirstTouch = () => {
+    if (!isMusicPlaying) {
+      playSong();
+    }
+    window.removeEventListener('pointerdown', autoPlayOnFirstTouch);
+    window.removeEventListener('click', autoPlayOnFirstTouch);
+    window.removeEventListener('touchstart', autoPlayOnFirstTouch);
+    window.removeEventListener('keydown', autoPlayOnFirstTouch);
+  };
+  window.addEventListener('pointerdown', autoPlayOnFirstTouch);
+  window.addEventListener('click', autoPlayOnFirstTouch);
+  window.addEventListener('touchstart', autoPlayOnFirstTouch, { passive: true });
+  window.addEventListener('keydown', autoPlayOnFirstTouch);
 
   function pauseSong() {
     isMusicPlaying = false;
