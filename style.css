@@ -1,0 +1,1385 @@
+/* =========================================================
+   RIYA'S BIRTHDAY WEBSITE - 10 SLIDES STORY EDITION 🐾🎂💖
+   Bollywood "O O Jaane Jaana" & 2 New Loving Mini-Games
+   ========================================================= */
+
+:root {
+  --bg-gradient: linear-gradient(145deg, #fff2f5 0%, #ffe4ec 45%, #f5e6ff 100%);
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --primary-pink: #ff5277;
+  --secondary-pink: #ffa4b6;
+  --accent-purple: #b366ff;
+  --accent-gold: #f59e0b;
+  --text-dark: #3f2a36;
+  --text-muted: #826678;
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-dark);
+}
+
+/* Confetti Canvas */
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* =========================================================
+   TOP APP BAR & STORY PROGRESS BAR (10 Segments)
+   ========================================================= */
+.app-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(180deg, rgba(255, 245, 247, 0.95) 0%, rgba(255, 245, 247, 0.8) 80%, transparent 100%);
+  backdrop-filter: blur(10px);
+  padding: 8px 14px 6px;
+}
+
+.story-progress-bar {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 6px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 164, 182, 0.35);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress-segment span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff5277, #ff8fab);
+  border-radius: 4px;
+  transition: width 0.35s ease;
+}
+
+.progress-segment.passed span { width: 100%; }
+.progress-segment.active span {
+  width: 100%;
+  box-shadow: 0 0 6px rgba(255, 82, 119, 0.6);
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.slide-indicator {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary-pink);
+  background: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--secondary-pink);
+  box-shadow: 0 2px 6px rgba(255, 82, 119, 0.1);
+}
+
+.music-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid var(--secondary-pink);
+  padding: 4px 10px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 82, 119, 0.15);
+  font-family: 'Nunito', sans-serif;
+  color: var(--primary-pink);
+}
+
+.music-pill-btn:active { transform: scale(0.96); }
+
+.music-disc-icon {
+  font-size: 0.95rem;
+  display: inline-block;
+}
+
+.music-pill-btn.playing .music-disc-icon {
+  animation: spinVinyl 3s linear infinite;
+}
+
+@keyframes spinVinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.music-title-text {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.music-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.music-wave .bar {
+  width: 2px;
+  background: var(--primary-pink);
+  border-radius: 2px;
+  height: 3px;
+}
+
+.music-pill-btn.playing .bar.b1 { animation: soundBar 0.8s infinite ease-in-out; }
+.music-pill-btn.playing .bar.b2 { animation: soundBar 1.2s infinite ease-in-out 0.2s; }
+.music-pill-btn.playing .bar.b3 { animation: soundBar 0.9s infinite ease-in-out 0.4s; }
+
+@keyframes soundBar {
+  0%, 100% { height: 2px; }
+  50% { height: 10px; }
+}
+
+/* =========================================================
+   SLIDES CONTAINER
+   ========================================================= */
+.slides-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.42s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide {
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 62px 14px 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 440px;
+  margin: auto 0;
+  padding: 8px 0;
+}
+
+.text-center { text-align: center; }
+
+.sub-pill {
+  display: inline-block;
+  background: #ffe4e9;
+  color: var(--primary-pink);
+  font-weight: 800;
+  font-size: 0.72rem;
+  padding: 3px 12px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: #fff;
+  color: var(--primary-pink);
+  border: 1.5px dashed var(--secondary-pink);
+  padding: 4px 14px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.slide-title-hero {
+  font-family: 'Gaegu', 'Nunito', cursive;
+  font-size: 2.3rem;
+  color: var(--primary-pink);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.slide-title {
+  font-family: 'Gaegu', 'Nunito', cursive;
+  font-size: 2.1rem;
+  color: var(--text-dark);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.slide-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 18px;
+  padding: 0 8px;
+}
+
+.slide-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.slide-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+/* =========================================================
+   SLIDE 1: GIFT BOX
+   ========================================================= */
+.sparkles-bg { font-size: 1.15rem; letter-spacing: 6px; margin-bottom: 4px; }
+.gift-cat-mascot { font-size: 2.6rem; margin-bottom: 4px; animation: headWiggle 2.5s infinite ease-in-out; }
+
+.gift-box {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 16px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.gift-box:active { transform: scale(0.96); }
+
+.gift-lid {
+  width: 150px;
+  height: 36px;
+  background: linear-gradient(135deg, #ff6b8b 0%, #ff8fab 100%);
+  border-radius: 12px;
+  position: absolute;
+  top: 0;
+  left: -5px;
+  box-shadow: 0 6px 14px rgba(255, 82, 119, 0.35);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s ease;
+}
+
+.gift-ribbon-bow { font-size: 1.8rem; margin-top: -15px; }
+
+.gift-base {
+  width: 130px;
+  height: 105px;
+  background: linear-gradient(135deg, #ffa4b6 0%, #fed7e2 100%);
+  border-radius: 0 0 16px 16px;
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  box-shadow: 0 10px 22px rgba(255, 82, 119, 0.25);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-ribbon-v { position: absolute; width: 24px; height: 100%; background: #fff; opacity: 0.6; }
+.gift-ribbon-h { position: absolute; height: 24px; width: 100%; background: #fff; opacity: 0.6; }
+
+.gift-tap-text {
+  position: relative;
+  z-index: 3;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #fff;
+  background: rgba(255, 82, 119, 0.95);
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.gift-pulse-hint {
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   SLIDE 2: PROFILE HERO (riya2.jpg)
+   ========================================================= */
+.profile-photo-wrapper {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 16px;
+}
+
+.cat-ears-topper {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.9rem;
+  z-index: 5;
+}
+
+.photo-glow-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #ff6b8b, #ffa4b6, #b366ff, #f59e0b);
+  box-shadow: 0 8px 22px rgba(255, 82, 119, 0.35);
+}
+
+.profile-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.photo-sparkle-tag {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--primary-pink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--secondary-pink);
+}
+
+.highlight-name { color: var(--primary-pink); }
+
+.slide-audio-playing-indicator {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px dashed var(--secondary-pink);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  color: var(--primary-pink);
+}
+
+/* =========================================================
+   SLIDE 3: CAKE SECTION
+   ========================================================= */
+.cake-container {
+  display: inline-block;
+  margin: 10px auto 16px;
+  position: relative;
+}
+
+.candles-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 2px;
+}
+
+.candle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.flame {
+  width: 14px;
+  height: 24px;
+  background: radial-gradient(ellipse at bottom, #fff700 0%, #ff9800 60%, #ff5722 90%);
+  border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+  box-shadow: 0 0 12px #ffeb3b, 0 0 20px #ff9800;
+  animation: flicker 1s infinite alternate ease-in-out;
+  transform-origin: bottom center;
+}
+
+.flame.extinguished { opacity: 0; transform: scale(0.2) translateY(-8px); }
+
+@keyframes flicker {
+  0% { transform: scale(1) rotate(-2deg); }
+  100% { transform: scale(1.08) rotate(3deg); }
+}
+
+.wick { width: 2px; height: 6px; background: #333; }
+.candle-stick { width: 12px; height: 36px; border-radius: 4px 4px 0 0; }
+.candle-stripe-1 { background: repeating-linear-gradient(45deg, #ff9ff3, #ff9ff3 4px, #feca57 4px, #feca57 8px); }
+.candle-stripe-2 { background: repeating-linear-gradient(-45deg, #54a0ff, #54a0ff 4px, #ff6b8b 4px, #ff6b8b 8px); }
+.candle-stripe-3 { background: repeating-linear-gradient(45deg, #1dd1a1, #1dd1a1 4px, #ff9ff3 4px, #ff9ff3 8px); }
+
+.cake-topper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.cat-topper-face { font-size: 1.3rem; }
+.cat-topper-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary-pink);
+  background: #fff;
+  padding: 1px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--secondary-pink);
+}
+
+.cake-tier { margin: 0 auto; border-radius: 12px 12px 0 0; }
+.tier-top { width: 135px; height: 44px; background: linear-gradient(180deg, #ffeef2 0%, #ffd1dc 100%); display: flex; align-items: center; justify-content: center; border: 1.5px solid #ffb3c6; }
+.tier-middle { width: 185px; height: 50px; background: linear-gradient(180deg, #f7e8ff 0%, #e9d5ff 100%); display: flex; align-items: center; justify-content: center; border: 1.5px solid #d8b4fe; }
+.tier-bottom { width: 240px; height: 54px; background: linear-gradient(180deg, #ffedd5 0%, #fed7aa 100%); display: flex; align-items: center; justify-content: center; border: 1.5px solid #fdba74; }
+
+.strawberries { font-size: 0.95rem; letter-spacing: 5px; }
+.cake-decorations { font-size: 0.8rem; letter-spacing: 4px; }
+.cake-message { font-family: 'Caveat', cursive; font-size: 1.2rem; font-weight: 700; color: #c2410c; }
+.cake-plate { width: 270px; height: 14px; background: #fff; border-radius: 20px; margin: 0 auto; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08); border: 1.5px solid #cbd5e1; }
+
+.wish-banner {
+  max-width: 360px;
+  margin: 12px auto 6px;
+  background: #ffffff;
+  border: 2px dashed var(--primary-pink);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  display: none;
+  animation: popIn 0.5s ease;
+}
+
+.wish-banner.active { display: block; }
+.wish-banner h3 { font-family: 'Gaegu', 'Nunito', cursive; font-size: 1.45rem; color: var(--primary-pink); margin-bottom: 2px; }
+.wish-banner p { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+
+.relight-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.action-btn {
+  background: linear-gradient(135deg, var(--primary-pink) 0%, #ff8fab 100%);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(255, 82, 119, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn:active { transform: scale(0.96); }
+
+/* =========================================================
+   SLIDE 4: POLAROID DUO (Real Photos)
+   ========================================================= */
+.polaroid-duo-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.polaroid-card-slide {
+  background: #ffffff;
+  padding: 8px 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  width: 165px;
+  position: relative;
+  text-align: center;
+}
+
+.rot-left { transform: rotate(-2.5deg); }
+.rot-right { transform: rotate(2.5deg); }
+.tape-pin { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 1.1rem; }
+
+.polaroid-photo-frame {
+  width: 100%;
+  height: 180px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f1f5f9;
+  margin-bottom: 6px;
+}
+
+.polaroid-real-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.polaroid-quote { font-family: 'Caveat', cursive; font-size: 1rem; font-weight: 700; color: var(--text-dark); line-height: 1.25; }
+.photo-footer-note { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--primary-pink); font-weight: 700; }
+
+/* =========================================================
+   SLIDE 5: LOVE QUIZ WITH RESTRICTED NO
+   ========================================================= */
+.quiz-scroll-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.quiz-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 14px 12px;
+  border: 1.5px solid rgba(255, 164, 182, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 82, 119, 0.08);
+}
+
+.quiz-q-num {
+  display: inline-block;
+  background: #ffe4e9;
+  color: var(--primary-pink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+
+.quiz-q-title { font-size: 0.98rem; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
+
+.color-options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 4px; }
+.color-btn { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: var(--radius-md); border: 1px solid rgba(0, 0, 0, 0.08); background: var(--c-bg); color: var(--c-text); font-weight: 800; font-size: 0.78rem; cursor: pointer; }
+.color-btn.selected { border-color: var(--primary-pink); box-shadow: 0 2px 6px rgba(255, 82, 119, 0.25); }
+.color-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.choice-options-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+.choice-btn { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-md); border: 1.5px solid #fed7aa; background: #fff; color: var(--text-dark); font-size: 0.82rem; font-weight: 700; cursor: pointer; text-align: left; }
+.choice-btn.selected { background: #ffe4e9; border-color: var(--primary-pink); }
+.choice-bullet { background: #fed7aa; color: #9a3412; font-size: 0.7rem; font-weight: 900; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
+
+.yn-btn-row { display: flex; gap: 8px; margin-bottom: 4px; }
+.quiz-yn-btn { flex: 1; padding: 9px 10px; border-radius: 30px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+.btn-yes { background: linear-gradient(135deg, #ff5277, #ff8fab); color: #fff; }
+.btn-no { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+
+.love-lock-card { border: 2px solid var(--primary-pink); background: linear-gradient(180deg, #ffffff 0%, #fff5f8 100%); }
+.quiz-sub-warning { font-size: 0.78rem; color: #e11d48; font-weight: 700; margin-bottom: 8px; }
+
+/* Disappearing Forever NO Button & Flying Kiss Effect */
+#foreverNoBtn {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#foreverNoBtn.disappeared {
+  opacity: 0 !important;
+  transform: scale(0) rotate(20deg) !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+.kiss-burst-item {
+  position: fixed;
+  font-size: 2.5rem;
+  pointer-events: none;
+  z-index: 99999;
+  user-select: none;
+  animation: kissFly 1.8s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes kissFly {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--kx), var(--ky)) scale(0.6) rotate(30deg);
+  }
+}
+
+.restricted-zone { position: relative; min-height: 65px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.love-yes-btn { background: linear-gradient(135deg, #ff3366, #ff6699); color: white; border: none; padding: 11px 18px; border-radius: 40px; font-weight: 900; font-size: 0.9rem; cursor: pointer; box-shadow: 0 6px 16px rgba(255, 51, 102, 0.4); }
+.love-no-btn { background: #f8fafc; color: #94a3b8; border: 1.5px solid #cbd5e1; padding: 9px 14px; border-radius: 40px; font-weight: 800; font-size: 0.82rem; cursor: pointer; transition: transform 0.2s ease; }
+.love-no-btn.shake { animation: shakeNo 0.4s ease-in-out; background: #fee2e2; color: #ef4444; }
+
+@keyframes shakeNo {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.quiz-feedback { min-height: 22px; font-family: 'Caveat', cursive; font-size: 1.2rem; font-weight: 700; color: var(--primary-pink); margin-top: 4px; text-align: center; }
+
+.love-certificate { margin-top: 10px; display: none; animation: popIn 0.5s ease; }
+.love-certificate.active { display: block; }
+.cert-border { background: #fffdf7; border: 2px double #f59e0b; border-radius: var(--radius-md); padding: 12px 10px; text-align: center; }
+.cert-crown { font-size: 1.2rem; display: block; margin-bottom: 3px; }
+.cert-border h5 { font-family: 'Gaegu', 'Nunito', cursive; font-size: 1.35rem; color: #b45309; margin-bottom: 4px; }
+.cert-text { font-size: 0.82rem; line-height: 1.35; margin-bottom: 8px; }
+.cert-signatures { display: flex; justify-content: space-around; font-size: 0.78rem; color: #78350f; border-top: 1px dashed #fcd34d; padding-top: 4px; }
+
+/* =========================================================
+   SLIDE 6: NEW MINI GAME 1 - CATCH ANKIT'S KISSES 🎮💋
+   ========================================================= */
+.catch-game-stage {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 16px 14px;
+  border: 1.5px solid rgba(255, 164, 182, 0.45);
+  box-shadow: 0 6px 18px rgba(255, 82, 119, 0.1);
+  text-align: center;
+}
+
+.game-score-banner {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.game-score-banner strong {
+  color: var(--primary-pink);
+  font-size: 1.05rem;
+}
+
+.game-progress-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.game-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff5277, #ff8fab, #b366ff);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.falling-play-area {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(180deg, #fff5f8 0%, #fffdfa 100%);
+  border: 1.5px dashed var(--secondary-pink);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tap-start-msg {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--primary-pink);
+  animation: pulseHint 2s infinite ease-in-out;
+}
+
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.7; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.falling-kiss-item {
+  position: absolute;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  animation: fallDown 3s linear forwards;
+}
+
+.falling-kiss-item:active {
+  transform: scale(1.4);
+}
+
+@keyframes fallDown {
+  0% { top: -40px; opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 210px; opacity: 0; }
+}
+
+.floating-catch-score {
+  position: absolute;
+  color: #ff3366;
+  font-weight: 900;
+  font-size: 1.1rem;
+  pointer-events: none;
+  animation: floatScore 0.8s forwards ease-out;
+}
+
+@keyframes floatScore {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+.game-controls-row {
+  margin-bottom: 8px;
+}
+
+.game-victory-box {
+  margin-top: 10px;
+  background: #fff;
+  border: 2px dashed #ff5277;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: none;
+  animation: popIn 0.5s ease;
+}
+
+.game-victory-box.active { display: block; }
+.victory-emojis { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+.game-victory-box h4 { font-family: 'Gaegu', 'Nunito', cursive; font-size: 1.45rem; color: var(--primary-pink); margin-bottom: 4px; }
+.game-victory-box p { font-size: 0.85rem; color: var(--text-dark); font-weight: 700; }
+
+/* =========================================================
+   SLIDE 7: NEW MINI GAME 2 - SCRATCH & WIN LOVE VOUCHERS 🎟️✨
+   ========================================================= */
+.vouchers-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.scratch-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 2px solid #fed7aa;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  overflow: hidden;
+  height: 95px;
+  transition: transform 0.2s ease;
+}
+
+.scratch-card:active {
+  transform: scale(0.98);
+}
+
+.scratch-cover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ffa4b6 0%, #ff758c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 5;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scratch-cover.scratched {
+  opacity: 0;
+  transform: scale(1.1);
+  pointer-events: none;
+}
+
+.scratch-icon { font-size: 1.6rem; }
+.scratch-label {
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.scratch-content {
+  padding: 10px 14px;
+  text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.v-badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: #ffe4e9;
+  color: var(--primary-pink);
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-bottom: 2px;
+}
+
+.scratch-content h5 {
+  font-family: 'Gaegu', 'Nunito', cursive;
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.scratch-content p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.v-seal {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-pink);
+  text-align: right;
+  margin-top: -2px;
+}
+
+.voucher-status-toast {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-pink);
+}
+
+/* =========================================================
+   SLIDE 8: ROMANTIC LOVE NOTES
+   ========================================================= */
+.notes-scroll-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.romantic-note-pill {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 164, 182, 0.4);
+  box-shadow: 0 4px 10px rgba(255, 82, 119, 0.06);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.note-pill-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.note-pill-body h5 { font-family: 'Gaegu', 'Nunito', cursive; font-size: 1.35rem; color: var(--text-dark); margin-bottom: 1px; }
+.note-pill-body p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.35; }
+
+/* =========================================================
+   SLIDE 9: LOVE LETTER
+   ========================================================= */
+.letter-paper {
+  background: #fffdf9;
+  border-radius: var(--radius-lg);
+  padding: 24px 16px 18px;
+  border: 1px solid #fed7aa;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+  text-align: left;
+}
+
+.letter-cat-header-slide { text-align: center; font-size: 1.6rem; margin-bottom: 4px; }
+.letter-stamp { position: absolute; top: 12px; right: 12px; border: 1.5px dashed var(--primary-pink); padding: 3px 8px; text-align: center; border-radius: 4px; transform: rotate(4deg); background: #fff5f8; }
+.letter-stamp span { display: block; font-size: 0.62rem; font-weight: 800; color: var(--primary-pink); }
+.letter-stamp small { font-size: 0.52rem; color: var(--text-muted); font-weight: 700; }
+
+.letter-salutation { font-family: 'Sacramento', cursive; font-size: 2.1rem; color: var(--primary-pink); margin-bottom: 8px; }
+.letter-body-slide p { font-family: 'Caveat', cursive; font-size: 1.3rem; line-height: 1.4; color: #3b2834; margin-bottom: 8px; }
+.letter-signature-slide { margin-top: 10px; text-align: right; }
+.letter-signature-slide p { font-family: 'Caveat', cursive; font-size: 1.15rem; color: var(--text-muted); }
+.sign-name { font-family: 'Sacramento', cursive; font-size: 2.3rem; color: var(--primary-pink); }
+
+/* =========================================================
+   SLIDE 10: FINALE & BALLOONS
+   ========================================================= */
+.balloons-stage { display: flex; justify-content: center; align-items: flex-end; gap: 12px; height: 110px; margin-bottom: 14px; }
+.balloon-item { cursor: pointer; display: flex; flex-direction: column; align-items: center; animation: balloonFloat 3s infinite ease-in-out alternate; }
+.balloon-body { font-size: 2.6rem; }
+.balloon-item.popped { animation: balloonPop 0.3s forwards ease-out; }
+
+@keyframes balloonPop {
+  0% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes balloonFloat {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-10px); }
+}
+
+.balloon-toast {
+  background: #ffffff;
+  border: 1.5px solid var(--secondary-pink);
+  border-radius: 40px;
+  padding: 7px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary-pink);
+  box-shadow: 0 4px 10px rgba(255, 82, 119, 0.12);
+  margin-bottom: 16px;
+}
+
+.finale-actions { display: flex; flex-direction: column; gap: 8px; align-items: center; margin-bottom: 14px; }
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid var(--secondary-pink);
+  color: var(--text-dark);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 8px 18px;
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.footer-mini { font-size: 0.8rem; color: var(--text-muted); }
+.cat-parade-text { font-size: 1rem; letter-spacing: 4px; margin-top: 3px; }
+
+/* =========================================================
+   BOTTOM NAVIGATION BAR (10 Dots)
+   ========================================================= */
+.app-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(0deg, rgba(255, 245, 247, 0.96) 0%, rgba(255, 245, 247, 0.85) 80%, transparent 100%);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px max(10px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nav-step-btn {
+  background: #ffffff;
+  border: 1.5px solid var(--secondary-pink);
+  color: var(--primary-pink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 7px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 82, 119, 0.15);
+  transition: all 0.2s ease;
+}
+
+.nav-step-btn:active { transform: scale(0.95); }
+.nav-step-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+.next-btn { background: linear-gradient(135deg, var(--primary-pink), #ff8fab); color: #fff; border: none; box-shadow: 0 4px 14px rgba(255, 82, 119, 0.35); }
+
+.nav-slide-dots {
+  display: flex;
+  gap: 3.5px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 164, 182, 0.45);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.dot.active {
+  width: 16px;
+  border-radius: 8px;
+  background: var(--primary-pink);
+}
+
+@keyframes headWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* =========================================================
+   AMBIENT FLOATING HEARTS & SPARKLES CANVAS
+   ========================================================= */
+#ambientCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slides-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   NOV 26 DOB PILL & LIVE BIRTHDAY COUNTDOWN
+   ========================================================= */
+.dob-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff5277, #b366ff);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(255, 82, 119, 0.25);
+  letter-spacing: 0.3px;
+}
+
+.countdown-box {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid var(--secondary-pink);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  margin: 0 auto 14px;
+  max-width: 320px;
+  box-shadow: 0 6px 16px rgba(255, 82, 119, 0.12);
+}
+
+.countdown-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary-pink);
+  margin-bottom: 6px;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.cd-item {
+  background: linear-gradient(180deg, #fff5f8, #ffe4ec);
+  border: 1px solid rgba(255, 164, 182, 0.5);
+  border-radius: 10px;
+  padding: 5px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cd-item span {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--primary-pink);
+  line-height: 1.1;
+}
+
+.cd-item small {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   IN-BROWSER PHOTO SWAP CHIPS
+   ========================================================= */
+.photo-upload-chip,
+.polaroid-swap-btn {
+  display: inline-block;
+  margin: 6px auto 10px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--primary-pink);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px dashed var(--secondary-pink);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.photo-upload-chip:hover,
+.polaroid-swap-btn:hover {
+  background: #fff0f4;
+  transform: scale(1.04);
+}
+
+/* =========================================================
+   SLIDE 8: LOVE MEMORY MATCH GAME
+   ========================================================= */
+.memory-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid var(--secondary-pink);
+  border-radius: 30px;
+  padding: 6px 14px;
+  margin: 0 auto 12px;
+  max-width: 340px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.memory-stats-bar strong {
+  color: var(--primary-pink);
+}
+
+.memory-reset-btn {
+  background: #fff0f4;
+  border: 1px solid var(--secondary-pink);
+  color: var(--primary-pink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.74rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 340px;
+  margin: 0 auto 12px;
+}
+
+.memory-card {
+  aspect-ratio: 1 / 1;
+  perspective: 700px;
+  cursor: pointer;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.memory-card.flipped .memory-card-inner,
+.memory-card.matched .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  box-shadow: 0 4px 10px rgba(255, 82, 119, 0.14);
+}
+
+.memory-card-front {
+  background: linear-gradient(135deg, #ff758f, #ff5277);
+  color: #fff;
+  font-size: 1.35rem;
+  border: 2px solid #fff;
+}
+
+.memory-card-back {
+  background: #ffffff;
+  border: 2px solid var(--secondary-pink);
+  font-size: 1.75rem;
+  transform: rotateY(180deg);
+}
+
+.memory-card.matched .memory-card-back {
+  background: linear-gradient(135deg, #fff0f6, #f3e8ff);
+  border-color: var(--accent-purple);
+  animation: popIn 0.3s ease;
+}
+
+.memory-win-banner {
+  display: none;
+  background: linear-gradient(135deg, #fff0f6, #f3e8ff);
+  border: 2px solid var(--primary-pink);
+  border-radius: var(--radius-lg);
+  padding: 10px 14px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--primary-pink);
+  max-width: 340px;
+  margin: 0 auto;
+  animation: popIn 0.35s ease;
+}
+
+.memory-win-banner.active {
+  display: block;
+}
+
+/* =========================================================
+   SLIDE 9: SPIN THE BIRTHDAY WHEEL
+   ========================================================= */
+.wheel-stage {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 6px auto 14px;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+.wheel-rotator {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 5px solid #ffffff;
+  box-shadow: 0 8px 24px rgba(255, 82, 119, 0.28);
+  transition: transform 4.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.wheel-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+}
+
+.wheel-center-cap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--primary-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.wheel-result-box {
+  background: #ffffff;
+  border: 1.5px solid var(--secondary-pink);
+  border-radius: 30px;
+  padding: 9px 16px;
+  margin: 10px auto 0;
+  max-width: 340px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--primary-pink);
+  box-shadow: 0 4px 12px rgba(255, 82, 119, 0.12);
+}
+
+/* Fireworks button on Finale */
+.fireworks-btn {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35) !important;
+}
+
+/* =========================================================
+   BLURRED PHOTO WEBSITE BACKGROUND
+   ========================================================= */
+.bg-photo-backdrop {
+  position: fixed;
+  inset: -6px;
+  z-index: 0;
+  background-image: url("images/bg-image.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: blur(2.5px);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.bg-photo-backdrop::after {
+  content: none;
+}
+
+/* =========================================================
+   SLIDE 5: SPECIAL VIDEO MEMORY FRAME
+   ========================================================= */
+.video-cinema-frame {
+  background: #ffffff;
+  border: 2.5px solid var(--secondary-pink);
+  border-radius: var(--radius-xl);
+  padding: 8px;
+  margin: 8px auto 14px;
+  max-width: 340px;
+  box-shadow: 0 10px 26px rgba(255, 82, 119, 0.2);
+}
+
+.birthday-video-player {
+  width: 100%;
+  max-height: 360px;
+  border-radius: 14px;
+  display: block;
+  background: #1f1420;
+  object-fit: cover;
+}

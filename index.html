@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Happy Birthday Shivangi! 🐾🎂💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Gaegu:wght@400;700&family=Nunito:wght@400;600;700;800;900&family=Sacramento&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+</head>
+<body>
+
+  <!-- Background Song: Starts directly at the singing (17s) -->
+  <audio id="bgSong" src="tum-se-hi.mp3#t=17" preload="auto" loop></audio>
+
+  <!-- Blurred Photo Website Background -->
+  <div class="bg-photo-backdrop" aria-hidden="true"></div>
+
+  <!-- Ambient Floating Hearts & Sparkles Canvas -->
+  <canvas id="ambientCanvas"></canvas>
+
+  <!-- Confetti & Fireworks Canvas (Fixed over screen) -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Top Navigation & Story Progress Bar (12 Slides) -->
+  <header class="app-topbar">
+    <div class="story-progress-bar" id="storyProgressBar">
+      <div class="progress-segment active"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+      <div class="progress-segment"><span></span></div>
+    </div>
+
+    <div class="topbar-controls">
+      <div class="slide-indicator" id="slideIndicator">1 / 12 🐾</div>
+
+      <button id="musicToggleBtn" class="music-pill-btn" aria-label="Toggle Tum Se Hi">
+        <span class="music-disc-icon" id="musicDisc">💿</span>
+        <span class="music-title-text" id="musicTitleText">Tum Se Hi</span>
+        <span class="music-wave">
+          <span class="bar b1"></span>
+          <span class="bar b2"></span>
+          <span class="bar b3"></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Slides Container -->
+  <div class="slides-container" id="slidesContainer">
+
+    <!-- =========================================================
+         SLIDE 1: SURPRISE GIFT BOX OPENER + NOV 26 COUNTDOWN
+         ========================================================= -->
+    <section class="slide active" id="slide1" data-index="0">
+      <div class="slide-inner text-center">
+        <div class="sparkles-bg">✨ 🐾 💖 🌸 🐾 ✨</div>
+        <div class="dob-pill">🎂 November 26 • Shivangi's Special Day 🎂</div>
+        <div class="gift-cat-mascot">🐱🎀</div>
+        <h1 class="slide-title-hero">A Romantic Surprise For Shivangi!</h1>
+        <p class="slide-subtitle">Vikas has prepared a special 12-chapter birthday story for you with games, video &amp; music! 🎵💕</p>
+
+        <!-- Live Countdown to Nov 26 -->
+        <div class="countdown-box" id="countdownBox">
+          <div class="countdown-label" id="countdownLabel">⏳ Counting down to Nov 26...</div>
+          <div class="countdown-grid" id="countdownGrid">
+            <div class="cd-item"><span id="cdDays">00</span><small>Days</small></div>
+            <div class="cd-item"><span id="cdHours">00</span><small>Hrs</small></div>
+            <div class="cd-item"><span id="cdMins">00</span><small>Min</small></div>
+            <div class="cd-item"><span id="cdSecs">00</span><small>Sec</small></div>
+          </div>
+        </div>
+
+        <!-- Bouncing 3D Gift Box -->
+        <div class="gift-box" id="openGiftBtn" role="button" tabindex="0">
+          <div class="gift-lid">
+            <div class="gift-ribbon-bow">🎀</div>
+          </div>
+          <div class="gift-base">
+            <div class="gift-ribbon-v"></div>
+            <div class="gift-ribbon-h"></div>
+            <span class="gift-tap-text">Tap to Open! 🎁</span>
+          </div>
+        </div>
+
+        <p class="gift-pulse-hint">Tap the gift box to play <strong>Tum Se Hi</strong> &amp; start your story ✨</p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 2: MEET THE BIRTHDAY PRINCESS
+         ========================================================= -->
+    <section class="slide" id="slide2" data-index="1">
+      <div class="slide-inner text-center">
+        <div class="hero-badge">🐾 Happy Birthday Princess • 26 Nov 🐾</div>
+
+        <!-- Shivangi's Photo in a Floral Glowing Frame -->
+        <div class="profile-photo-wrapper">
+          <div class="cat-ears-topper">🐱👑</div>
+          <div class="photo-glow-ring">
+            <img src="images/shivangi1.jpeg" alt="Beautiful Birthday Girl Shivangi" class="profile-hero-img" id="profileHeroImg">
+          </div>
+          <div class="photo-sparkle-tag">✨ Gorgeous Queen ✨</div>
+        </div>
+
+        <label class="photo-upload-chip" for="uploadPhoto2">
+          📷 Choose Shivangi's Photo
+          <input type="file" id="uploadPhoto2" accept="image/*" hidden>
+        </label>
+
+        <h2 class="slide-title">
+          Happy Birthday, <span class="highlight-name">Shivangi!</span> 💖
+        </h2>
+
+        <p class="slide-desc">
+          To the prettiest, sweetest, and most wonderful girl in the whole wide world!
+          Every single second with you is a blessing. May your smile shine brighter than all the stars today on November 26 and always! 🌸✨
+        </p>
+
+        <div class="slide-audio-playing-indicator">
+          <span>🎵 Playing: <strong id="slideAudioName">Tum Se Hi</strong> 💖</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 3: INTERACTIVE 3-TIER BIRTHDAY CAKE
+         ========================================================= -->
+    <section class="slide" id="slide3" data-index="2">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Make a Wish 🌸</span>
+        <h2 class="slide-title">Blow The Candles! 🎂</h2>
+        <p class="slide-hint">Make a wish from your heart and tap the candles to blow them out!</p>
+
+        <div class="cake-container" id="cakeContainer">
+          <div class="candles-row">
+            <div class="candle" data-candle="1">
+              <div class="flame" id="flame1"></div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stripe-1"></div>
+            </div>
+            <div class="candle" data-candle="2">
+              <div class="flame" id="flame2"></div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stripe-2"></div>
+            </div>
+            <div class="candle" data-candle="3">
+              <div class="flame" id="flame3"></div>
+              <div class="wick"></div>
+              <div class="candle-stick candle-stripe-3"></div>
+            </div>
+          </div>
+
+          <div class="cake-topper">
+            <span class="cat-topper-face">🐱</span>
+            <span class="cat-topper-text">26 Nov • Shivangi</span>
+          </div>
+
+          <div class="cake-tier tier-top">
+            <div class="strawberries">🍓 🍓 🍓</div>
+          </div>
+
+          <div class="cake-tier tier-middle">
+            <div class="cake-decorations">🐾 🌸 🐾 🌸 🐾</div>
+          </div>
+
+          <div class="cake-tier tier-bottom">
+            <div class="cake-message">✨ Happy Birthday Shivangi ✨</div>
+          </div>
+
+          <div class="cake-plate"></div>
+        </div>
+
+        <div class="wish-banner" id="wishBanner">
+          <span class="party-cats">🎉 🐱 💖 🐱 🎉</span>
+          <h3>✨ Your Wish Is Sent To The Stars! ✨</h3>
+          <p>May all your dreams come true! Vikas loves you to infinity and beyond! 💕</p>
+          <button class="relight-btn" id="relightBtn">Relight Candles 🕯️</button>
+        </div>
+
+        <div class="cake-action-btns">
+          <button class="action-btn blow-btn" id="blowAllBtn">
+            <span>🌬️ Blow All Candles Together!</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 4: OUR CHERISHED MEMORIES (2 Polaroids)
+         ========================================================= -->
+    <section class="slide" id="slide4" data-index="3">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Cherished Moments 📸</span>
+        <h2 class="slide-title">Our Paws-ome Memories 🐾</h2>
+        <p class="slide-hint">The two sweetest faces that stole Vikas's heart forever!</p>
+
+        <div class="polaroid-duo-container">
+          <div class="polaroid-card-slide rot-left">
+            <div class="tape-pin">🌸</div>
+            <div class="polaroid-photo-frame">
+              <img src="images/shivangi2.jpeg" alt="Shivangi's Sweet Smile" class="polaroid-real-img" id="polaroidImg1">
+            </div>
+            <p class="polaroid-quote">"That million-dollar smile that melts my heart! 🥰"</p>
+            <label class="polaroid-swap-btn" for="uploadPhoto1">
+              📷 Swap Photo
+              <input type="file" id="uploadPhoto1" accept="image/*" hidden>
+            </label>
+          </div>
+
+          <div class="polaroid-card-slide rot-right">
+            <div class="tape-pin">🎀</div>
+            <div class="polaroid-photo-frame">
+              <img src="images/shivangi3.jpeg" alt="Shivangi Looking Gorgeous" class="polaroid-real-img" id="polaroidImg2">
+            </div>
+            <p class="polaroid-quote">"My favorite person, my queen, my forever girl. 💖"</p>
+          </div>
+        </div>
+
+        <p class="photo-footer-note">"Born on November 26 to bring endless magic into my life..." 🎶💕</p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 5 (NEW): SPECIAL VIDEO MEMORY 🎬💖
+         ========================================================= -->
+    <section class="slide" id="slide5" data-index="4">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Special Moment 🎬</span>
+        <h2 class="slide-title">A Sweet Video For You 💖</h2>
+        <p class="slide-hint">Press play to watch this special birthday memory, Shivangi! ✨</p>
+
+        <div class="video-cinema-frame">
+          <video id="birthdayVideo" class="birthday-video-player" controls muted playsinline preload="metadata">
+            <source src="videos/shivangi-memory.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+        </div>
+
+        <p class="photo-footer-note">"Every frame with you is my favorite memory, Shivangi. 🐾💕"</p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 6: INTERACTIVE LOVE QUIZ
+         ========================================================= -->
+    <section class="slide" id="slide6" data-index="5">
+      <div class="slide-inner">
+        <div class="text-center">
+          <span class="sub-pill">Interactive Love Quiz 🐾</span>
+          <h2 class="slide-title">Shivangi &amp; Vikas's Love Quiz 💖</h2>
+          <p class="slide-hint">Answer these honestly, my birthday princess!</p>
+        </div>
+
+        <div class="quiz-scroll-box">
+          <!-- Q1 -->
+          <div class="quiz-card" id="q1Card">
+            <div class="quiz-q-num">Question 1 🌸</div>
+            <h4 class="quiz-q-title">What is your favorite color? 🎨</h4>
+            <div class="color-options-grid">
+              <button class="color-btn" data-color="Pastel Pink 🌸" style="--c-bg: #ffd1dc; --c-text: #b83280;">
+                <span class="color-dot" style="background:#ff6b8b;"></span>
+                <span>Pastel Pink 🌸</span>
+              </button>
+              <button class="color-btn" data-color="Lavender 💜" style="--c-bg: #e9d5ff; --c-text: #7e22ce;">
+                <span class="color-dot" style="background:#a855f7;"></span>
+                <span>Lavender 💜</span>
+              </button>
+              <button class="color-btn" data-color="Sky Blue ☁️" style="--c-bg: #dbeafe; --c-text: #1d4ed8;">
+                <span class="color-dot" style="background:#60a5fa;"></span>
+                <span>Sky Blue ☁️</span>
+              </button>
+              <button class="color-btn" data-color="Sunset Peach 🍑" style="--c-bg: #ffedd5; --c-text: #c2410c;">
+                <span class="color-dot" style="background:#fb923c;"></span>
+                <span>Sunset Peach 🍑</span>
+              </button>
+            </div>
+            <div class="quiz-feedback" id="q1Feedback"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz-card" id="q2Card">
+            <div class="quiz-q-num">Question 2 🐾</div>
+            <h4 class="quiz-q-title">Who is your favorite person? 👑</h4>
+            <div class="choice-options-list">
+              <button class="choice-btn" data-person="Vikas">
+                <span class="choice-bullet">A</span>
+                <span>Vikas (The cute one who loves you endlessly 🥰)</span>
+              </button>
+              <button class="choice-btn special-choice" data-person="Vikas">
+                <span class="choice-bullet">B</span>
+                <span>All of the above! (It's always Vikas 💕)</span>
+              </button>
+            </div>
+            <div class="quiz-feedback" id="q2Feedback"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-card" id="q3Card">
+            <div class="quiz-q-num">Question 3 💖</div>
+            <h4 class="quiz-q-title">Are you happy with Vikas? 🥺✨</h4>
+            <div class="yn-btn-row">
+              <button class="quiz-yn-btn btn-yes" id="happyYesBtn">
+                <span>YES! Very Happy! 🥰💖</span>
+              </button>
+              <button class="quiz-yn-btn btn-no" id="happyNoBtn">
+                <span>NO 🙈</span>
+              </button>
+            </div>
+            <div class="quiz-feedback" id="q3Feedback"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-card love-lock-card" id="q4Card">
+            <div class="quiz-q-num">Question 4 🔒💕</div>
+            <h4 class="quiz-q-title">Do you love Vikas? 💍✨</h4>
+            <p class="quiz-sub-warning">⚠️ Note: "No" is strictly restricted by law! 🐱🐾</p>
+
+            <div class="restricted-zone" id="restrictedZone">
+              <button class="love-yes-btn" id="loveYesBtn">
+                <span>YES, With All My Heart! 💖😍</span>
+              </button>
+
+              <button class="love-no-btn" id="loveNoBtn">
+                <span>NO 😜</span>
+              </button>
+            </div>
+
+            <div class="quiz-feedback" id="q4Feedback"></div>
+
+            <div class="love-certificate" id="loveCertificate">
+              <div class="cert-border">
+                <span class="cert-crown">👑 🐱 💍 🐱 👑</span>
+                <h5>OFFICIAL LOVE CERTIFICATE</h5>
+                <p class="cert-text">
+                  It is hereby declared on this birthday (26 Nov) that <strong>Shivangi</strong> loves <strong>Vikas</strong> unconditionally forever and ever! 💖
+                </p>
+                <div class="cert-signatures">
+                  <span>Signed: <strong>Shivangi 🌸</strong></span>
+                  <span>Witness: <strong>The Cats 🐾</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz-card" id="q5Card">
+            <div class="quiz-q-num">Question 5 (Special) 💍💖</div>
+            <h4 class="quiz-q-title">Do you want Vikas forever? 🥺✨</h4>
+
+            <div class="yn-btn-row relative" id="foreverBtnRow">
+              <button class="quiz-yn-btn btn-yes" id="foreverYesBtn">
+                <span>YES, Forever &amp; Always! 🥰💖</span>
+              </button>
+              <button class="quiz-yn-btn btn-no transition-all duration-500" id="foreverNoBtn">
+                <span>NO 🙈</span>
+              </button>
+            </div>
+
+            <div class="quiz-feedback" id="q5Feedback"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 7: MINI GAME 1 - CATCH VIKAS'S KISSES 🎮💋
+         ========================================================= -->
+    <section class="slide" id="slide7" data-index="6">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Loving Mini-Game 1 🎮</span>
+        <h2 class="slide-title">Catch Vikas's Kisses! 💋🐾</h2>
+        <p class="slide-hint">Vikas is showering you with kisses! Tap the falling hearts &amp; kisses to collect 100% Love!</p>
+
+        <div class="catch-game-stage" id="catchGameStage">
+          <div class="game-score-banner">
+            <span>Love Collected:</span>
+            <strong id="gameScoreText">0%</strong>
+          </div>
+
+          <div class="game-progress-bar-bg">
+            <div class="game-progress-bar-fill" id="gameProgressFill" style="width: 0%;"></div>
+          </div>
+
+          <div class="falling-play-area" id="fallingPlayArea">
+            <div class="tap-start-msg" id="tapStartMsg">
+              <span>👉 Tap "Start Game" to begin catching! 💖</span>
+            </div>
+          </div>
+
+          <div class="game-controls-row">
+            <button class="action-btn" id="startGameBtn">
+              <span>🎮 Start Catching Kisses!</span>
+            </button>
+          </div>
+
+          <div class="game-victory-box" id="gameVictoryBox">
+            <span class="victory-emojis">🎉 💋 💖 💍 🐾 🎉</span>
+            <h4>100% Love Collected! 🥰</h4>
+            <p>Vikas's heart is completely full with Shivangi's love! You are his greatest prize in the world!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 8: MINI GAME 2 - SCRATCH & WIN LOVE VOUCHERS 🎟️✨
+         ========================================================= -->
+    <section class="slide" id="slide8" data-index="7">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Surprise Coupons 🎟️</span>
+        <h2 class="slide-title">Scratch &amp; Win Love Vouchers! 🎁</h2>
+        <p class="slide-hint">Tap each mystery card to reveal Vikas's romantic birthday vouchers for you!</p>
+
+        <div class="vouchers-grid">
+          <div class="scratch-card" id="voucher1" data-revealed="false">
+            <div class="scratch-cover">
+              <span class="scratch-icon">❓</span>
+              <span class="scratch-label">Tap to Scratch 🌸</span>
+            </div>
+            <div class="scratch-content">
+              <div class="v-badge">🍧 SPECIAL DATE</div>
+              <h5>Midnight Ice Cream &amp; Long Drive</h5>
+              <p>Redeemable anytime Shivangi craves dessert &amp; late-night music!</p>
+              <div class="v-seal">Valid Forever 💖</div>
+            </div>
+          </div>
+
+          <div class="scratch-card" id="voucher2" data-revealed="false">
+            <div class="scratch-cover">
+              <span class="scratch-icon">👑</span>
+              <span class="scratch-label">Tap to Scratch 🎀</span>
+            </div>
+            <div class="scratch-content">
+              <div class="v-badge">👑 QUEEN FOR A DAY</div>
+              <h5>24-Hour "Yes Day" from Vikas</h5>
+              <p>Vikas will happily say YES to anything Shivangi requests for a whole day!</p>
+              <div class="v-seal">Guaranteed 🐾</div>
+            </div>
+          </div>
+
+          <div class="scratch-card" id="voucher3" data-revealed="false">
+            <div class="scratch-cover">
+              <span class="scratch-icon">🎟️</span>
+              <span class="scratch-label">Tap to Scratch 💕</span>
+            </div>
+            <div class="scratch-content">
+              <div class="v-badge">💋 LIFETIME CUDDLES</div>
+              <h5>Unlimited Forehead Kisses &amp; Hugs</h5>
+              <p>Whenever you need comforting or warm cuddles, valid 24/7/365!</p>
+              <div class="v-seal">No Expiration Date 💍</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="voucher-status-toast" id="voucherToast">
+          Tap the mystery cards above to unlock all 3 vouchers! ✨
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 9: MINI GAME 3 - SPIN THE BIRTHDAY WHEEL 🎡🎁
+         ========================================================= -->
+    <section class="slide" id="slide9" data-index="8">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Mini-Game 3 🎡</span>
+        <h2 class="slide-title">Spin Vikas's Surprise Wheel! ✨</h2>
+        <p class="slide-hint">Tap spin to win a sweet birthday treat or promise from Vikas!</p>
+
+        <div class="wheel-stage">
+          <div class="wheel-pointer">🔻</div>
+          <div class="wheel-rotator" id="wheelRotator">
+            <svg viewBox="0 0 260 260" class="wheel-svg" id="wheelSvg"></svg>
+            <div class="wheel-center-cap">💖</div>
+          </div>
+        </div>
+
+        <button class="action-btn spin-btn" id="spinWheelBtn">
+          <span>🎡 Spin the Wheel!</span>
+        </button>
+
+        <div class="wheel-result-box" id="wheelResultBox">
+          Tap the button above to see what you win! 🎁
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 10: ROMANTIC LOVE NOTES FROM VIKAS
+         ========================================================= -->
+    <section class="slide" id="slide10" data-index="9">
+      <div class="slide-inner">
+        <div class="text-center">
+          <span class="sub-pill">From Vikas's Heart 💖</span>
+          <h2 class="slide-title">Why You're My Everything 🌸</h2>
+          <p class="slide-hint">A few little truths about why I adore you so much, Shivangi...</p>
+        </div>
+
+        <div class="notes-scroll-list">
+          <div class="romantic-note-pill">
+            <div class="note-pill-icon">✨</div>
+            <div class="note-pill-body">
+              <h5>The Light In My World</h5>
+              <p>Whenever you smile, the whole world turns gentle. Your laughter washes away every bad day.</p>
+            </div>
+          </div>
+
+          <div class="romantic-note-pill">
+            <div class="note-pill-icon">🏡</div>
+            <div class="note-pill-body">
+              <h5>My Safest Home</h5>
+              <p>In a noisy chaotic world, holding your hand is the only place that feels like absolute peace.</p>
+            </div>
+          </div>
+
+          <div class="romantic-note-pill">
+            <div class="note-pill-icon">🌙</div>
+            <div class="note-pill-body">
+              <h5>Endless Talks</h5>
+              <p>From late night whispers to silly laughs, hours pass like seconds with you, my soulmate.</p>
+            </div>
+          </div>
+
+          <div class="romantic-note-pill">
+            <div class="note-pill-icon">👑</div>
+            <div class="note-pill-body">
+              <h5>Today &amp; Always</h5>
+              <p>I loved you yesterday, I love you more today, and I'll love you even more tomorrow. 🐾</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 11: VIKAS'S HEARTFELT LOVE LETTER
+         ========================================================= -->
+    <section class="slide" id="slide11" data-index="10">
+      <div class="slide-inner">
+        <div class="letter-paper">
+          <div class="letter-stamp">
+            <span>NOV 26</span>
+            <small>SHIVANGI'S DAY</small>
+          </div>
+
+          <div class="letter-cat-header-slide">🐱💌🐾</div>
+          <h3 class="letter-salutation">My Dearest Shivangi, 💖</h3>
+
+          <div class="letter-body-slide">
+            <p>
+              Happy Birthday, my sweet princess! 🌸 November 26 is the most special day of the year because it celebrates the day the universe blessed this world—and my life—with you.
+            </p>
+            <p>
+              Every single day with you is filled with color, sweet laughter, and gentle warmth. Thank you for being my biggest smile, my confidante, and my favorite person.
+            </p>
+            <p>
+              No matter where life takes us, my heart has found its forever home in you.
+            </p>
+            <p>
+              May this year shower you with endless joys, boundless love, and all your dreams fulfilled!
+            </p>
+          </div>
+
+          <div class="letter-signature-slide">
+            <p>Forever and always yours,</p>
+            <div class="sign-name">Vikas 🐾💕</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SLIDE 12: POP BALLOONS, FIREWORKS & CELEBRATION FINALE
+         ========================================================= -->
+    <section class="slide" id="slide12" data-index="11">
+      <div class="slide-inner text-center">
+        <span class="sub-pill">Pop for Love 🎈</span>
+        <h2 class="slide-title">Happy Birthday, Shivangi! 🎉</h2>
+        <p class="slide-hint">Tap any balloon to pop it for a sweet birthday wish!</p>
+
+        <div class="balloons-stage" id="balloonsStage">
+          <div class="balloon-item b-pink" data-msg="You have the prettiest eyes and sweetest soul, Shivangi! ✨">
+            <div class="balloon-body">🎈</div>
+            <div class="balloon-string"></div>
+          </div>
+          <div class="balloon-item b-purple" data-msg="You give the warmest and coziest cuddles ever! 🐾">
+            <div class="balloon-body">🎈</div>
+            <div class="balloon-string"></div>
+          </div>
+          <div class="balloon-item b-yellow" data-msg="November 26 is magical because you were born on it! 🍰">
+            <div class="balloon-body">🎈</div>
+            <div class="balloon-string"></div>
+          </div>
+          <div class="balloon-item b-mint" data-msg="Vikas loves you more than words can ever say! 💖">
+            <div class="balloon-body">🎈</div>
+            <div class="balloon-string"></div>
+          </div>
+        </div>
+
+        <div class="balloon-toast" id="balloonToast">
+          <span id="balloonToastText">Tap a balloon above! 🎈</span>
+        </div>
+
+        <div class="finale-actions">
+          <button class="action-btn" id="grandConfettiBtn">
+            <span>🎉 Shoot Birthday Confetti!</span>
+          </button>
+          <button class="action-btn fireworks-btn" id="fireworksBtn">
+            <span>🎆 Launch Birthday Fireworks!</span>
+          </button>
+          <button class="secondary-btn" id="replayStoryBtn">
+            <span>🔄 Replay Story From Start</span>
+          </button>
+        </div>
+
+        <div class="footer-mini">
+          <p>Crafted with infinite love for <strong>Shivangi</strong> (26 Nov) from <strong>Vikas</strong> 💕</p>
+          <p class="cat-parade-text">🐈‍⬛ 🐾 🐾 🐱 🐾 🐾 🐈</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bottom Navigation Bar (12 Dots) -->
+  <nav class="app-bottom-nav">
+    <button class="nav-step-btn prev-btn" id="prevSlideBtn" disabled>
+      <span>⬅ Back</span>
+    </button>
+
+    <div class="nav-slide-dots" id="navSlideDots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <button class="nav-step-btn next-btn" id="nextSlideBtn">
+      <span>Next ➔</span>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
